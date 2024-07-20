@@ -132,42 +132,138 @@ def explore(player):
 
 
 def menu(player):
-
-    # Loop principal do inventário
     while True:
         os.system('cls' if os.name == 'nt' else 'clear') 
         print("\nVocê está no Menu...\n")
         player.show_status()
-        action = input("\nO que você quer fazer? (E)quipar item, (V)ender item, (S)air: ").lower()
+        action = input("\nO que você quer fazer? (E)quipar item, (V)ender item, (U)pgrade item, (P) usar poção, (S)air: ").lower()
+        
         if action == 'e':
-            try:
-                item_index = int(input("Digite o número do item que deseja equipar: ")) - 1
-                player.equip_item(item_index)
-                player.show_status()
-            except ValueError:
-                print("Por favor, insira um número válido.")
+            while True:
+                os.system('cls' if os.name == 'nt' else 'clear') 
+                print("\nItens disponíveis para equipar:")
+                for idx, item in enumerate(player.inventory):
+                    print(f"[{idx + 1}] {item}")
+
+                action = input("\nDigite o número do item que deseja equipar ou (v) para voltar: ").lower()
+                if action == 'v':
+                    break
+                
+                try:
+                    item_index = int(action) - 1
+                    if 0 <= item_index < len(player.inventory):
+                        player.equip_item(item_index)
+                        player.show_status()
+                        print(f"\nVocê equipou {player.inventory[item_index].name}.")
+                    else:
+                        print("Índice do item não encontrado no inventário.")
+                except ValueError:
+                    print("Por favor, insira um número válido.")
+                
+                input("\nPressione Enter para voltar ao menu.")
+        
         elif action == 'v':
-            try:
-                item_index = int(input("Digite o número do item que deseja vender: ")) - 1
-                if 0 <= item_index < len(player.inventory):
-                    item_to_sell = player.inventory[item_index]
+            while True:
+                os.system('cls' if os.name == 'nt' else 'clear') 
+                print("\nItens disponíveis para venda:")
+                for idx, item in enumerate(player.inventory):
+                    print(f"[{idx + 1}] {item}")
 
-                    # Verifica se o item vendido está equipado e desequipa se necessário
-                    if player.weapon == item_to_sell:
-                        player.weapon = None
-                    if player.shield == item_to_sell:
-                        player.shield = None
+                action = input("\nDigite o número do item que deseja vender ou (v) para voltar: ").lower()
+                if action == 'v':
+                    break
+                
+                try:
+                    item_index = int(action) - 1
+                    if 0 <= item_index < len(player.inventory):
+                        item_to_sell = player.inventory[item_index]
+                        
+                        # Verifica se o item vendido está equipado e desequipa se necessário
+                        if player.weapon == item_to_sell:
+                            player.weapon = None
+                        if player.shield == item_to_sell:
+                            player.shield = None
 
-                    player.inventory.pop(item_index)
-                    player.earn_money(item_to_sell.value)
-                    print(f"Você vendeu {item_to_sell.name} por ${item_to_sell.value}.")
-                    player.show_status()
-                else:
-                    print("Índice do item não encontrado no inventário.")
-            except ValueError:
-                print("Por favor, insira um número válido.")
+                        player.inventory.pop(item_index)
+                        player.earn_money(item_to_sell.value)
+                        player.show_status()
+                        print(f"\nVocê vendeu {item_to_sell.name} por ${item_to_sell.value}.")
+                    else:
+                        print("Índice do item não encontrado no inventário.")
+                except ValueError:
+                    print("Por favor, insira um número válido.")
+                
+                input("\nPressione Enter para voltar ao menu.")
+        
+        elif action == 'u':
+            while True:
+                os.system('cls' if os.name == 'nt' else 'clear') 
+                print("\nItens disponíveis para upgrade:")
+                for idx, item in enumerate(player.inventory):
+                    if isinstance(item, Weapon):
+                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 0.5}, Nível atual: {item.level}, Dano atual: {item.damage}, Dano após upgrade: {item.damage + 5}")
+                    elif isinstance(item, Potion):
+                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 0.5}, Nível atual: {item.level}, Cura atual: {item.heal_amount}, Cura após upgrade: {item.heal_amount + 10}")
+                    elif isinstance(item, Shield):
+                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 0.5}, Nível atual: {item.level}, Bloqueio atual: {item.block_amount}, Bloqueio após upgrade: {item.block_amount + 3}")
+
+                action = input("\nDigite o número do item que deseja melhorar ou (v) para voltar: ").lower()
+                if action == 'v':
+                    break
+                
+                try:
+                    item_index = int(action) - 1
+                    if 0 <= item_index < len(player.inventory):
+                        item_to_upgrade = player.inventory[item_index]
+                        # Verifique se o jogador tem dinheiro suficiente e faça o upgrade
+                        upgrade_cost = item_to_upgrade.value * 0.5
+                        if player.money >= upgrade_cost:
+                                item_to_upgrade.upgrade()
+                                player.earn_money(-upgrade_cost)
+                                player.show_status()
+                                print(f"\nVocê melhorou {item_to_upgrade.name} para nível {item_to_upgrade.level}.")
+                        else:
+                            print("Dinheiro insuficiente para o upgrade.")
+                    else:
+                        print("Índice do item não encontrado no inventário.")
+                except ValueError:
+                    print("Por favor, insira um número válido.")
+                
+                input("\nPressione Enter para voltar ao menu.")
+        
+        elif action == 'p':
+            while True:
+                os.system('cls' if os.name == 'nt' else 'clear') 
+                print("\nPoções disponíveis para uso:")
+                for idx, item in enumerate(player.inventory):
+                    if isinstance(item, Potion):
+                        print(f"[{idx + 1}] {item}")
+
+                action = input("\nDigite o número da poção que deseja usar ou (v) para voltar: ").lower()
+                if action == 'v':
+                    break
+                
+                try:
+                    item_index = int(action) - 1
+                    if 0 <= item_index < len(player.inventory):
+                        potion_to_use = player.inventory[item_index]
+                        if isinstance(potion_to_use, Potion):
+                            player.hp = min(100, player.hp + potion_to_use.heal_amount)
+                            player.show_status()
+                            print(f"\nVocê usou {potion_to_use.name}.")
+                            player.inventory.pop(item_index)
+                        else:
+                            print("O item selecionado não é uma poção.")
+                    else:
+                        print("Índice do item não encontrado no inventário.")
+                except ValueError:
+                    print("Por favor, insira um número válido.")
+                
+                input("\nPressione Enter para voltar ao menu.")
+
         elif action == 's':
             print("Saindo do menu.")
             break
+        
         else:
-            print("Escolha inválida. Por favor, escolha (E)quipar item, (V)ender item ou (S)air.")
+            print("Escolha inválida. Por favor, escolha (E)quipar item, (V)ender item, (U)pgrade item, (P) usar poção ou (S)air.")
