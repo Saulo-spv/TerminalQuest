@@ -10,7 +10,8 @@ def inventory(player):
     player.show_status()
 
     # Loop principal do inventário
-    while player.is_alive():
+    action = None
+    while action != 's':
         action = input("\nO que você quer fazer? (E)quipar item, (V)ender item, (S)air: ").lower()
         if action == 'e':
             try:

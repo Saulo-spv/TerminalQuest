@@ -17,12 +17,12 @@ def main():
     player.add_item(Shield("Escudo de Ferro", 100, 10))
 
     while player.is_alive():
-        action = input("\nO que você quer fazer? (E)xplorar, (I)nventário, (Q)uit: ").lower()
+        action = input("\nO que você quer fazer? (E)xplorar, (M)enu, (S)air: ").lower()
         if action == 'e':
             explore(player)
-        elif action == 'i':
+        elif action == 'm':
             inventory(player)
-        elif action == 'q':
+        elif action == 's':
             print("Obrigado por jogar!")
             break
         else:
