@@ -1,6 +1,6 @@
 from player import Player
 from items import Weapon, Potion, Shield
-from functions import explore, inventory
+from functions import explore, inventory, tutorial
 
 def main():
     print("A Jornada Acadêmica: Desafios do Campus!")
@@ -11,10 +11,7 @@ def main():
 
     player = Player(name)
 
-    # Adicionando alguns itens ao inventário do jogador
-    player.add_item(Weapon("Espada do Destino", 150, 25))
-    player.add_item(Potion("Poção de Cura Maior", 50, 20))
-    player.add_item(Shield("Escudo de Ferro", 100, 10))
+    tutorial(player)
 
     while player.is_alive():
         action = input("\nO que você quer fazer? (E)xplorar, (M)enu, (S)air: ").lower()

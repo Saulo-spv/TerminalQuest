@@ -1,6 +1,33 @@
 from player import Player
 from items import Weapon, Potion, Shield
 
+def tutorial(player):
+
+    # Introdução à história
+    print("\nPrimeiramente, você decide explorar o campus para entender o que está acontecendo.")
+    print("Enquanto caminha pelos corredores, você se encontra com o Professor Vovô.")
+    print("\nProfessor Vovô: 'Olá, jovem! O campus está enfrentando tempos difíceis, com monstros acadêmicos à solta. Eu vou te ajudar a começar sua jornada. Aqui estão alguns itens básicos para te ajudar'")
+    
+    # Criando itens iniciais
+    sword = Weapon("Espada de Treinamento", 10, 5)
+    shield = Shield("Escudo de Treinamento", 5, 2)
+    potion = Potion("Poção de Cura", 3, 10)
+
+    # Adicionando itens ao inventário do jogador
+    player.add_item(sword)
+    player.add_item(shield)
+    player.add_item(potion)
+
+    # Professor Vovô dando dinheiro
+    player.earn_money(50)
+    
+    # Equipando itens iniciais
+    print("\nProfessor Vovô: 'Agora, deixe-me te ensinar como equipar esses itens. Entre no menu apertando 'M' depois selecione Equipar com a tecla 'e'!")
+
+    print("\nProfessor Vovô: 'Você também receberá 50 de dinheiro para começar sua jornada.'")
+    print("\nVocê está pronto para explorar o campus e enfrentar os desafios!")
+
+
 def explore(player):
     print("\nVocê está explorando o campus...")
     # Aqui você pode adicionar o código para encontrar monstros, itens ou desafios
