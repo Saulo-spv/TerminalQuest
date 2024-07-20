@@ -1,7 +1,7 @@
 import random
 import os
 from player import Player
-from items import Weapon, Potion, Shield
+from items import Weapon, Potion, Shield, weapons, potions, shields, weight
 from enemies import monsters
 
 def tutorial(player):
@@ -13,8 +13,8 @@ def tutorial(player):
     print("\nProfessor Vovô: 'Olá, jovem! O campus está enfrentando tempos difíceis, com monstros acadêmicos à solta. Eu vou te ajudar a começar sua jornada. Aqui estão alguns itens básicos para te ajudar'")
     
     # Criando itens iniciais
-    sword = Weapon("Espada de Treinamento", 10, 5)
-    shield = Shield("Escudo de Treinamento", 5, 2)
+    sword = Weapon("Espada velha", 10, 5)
+    shield = Shield("Escudo velho", 5, 2)
     potion = Potion("Poção de Cura", 3, 10)
 
     # Adicionando itens ao inventário do jogador
@@ -114,9 +114,15 @@ def explore(player):
                 print("Escolha inválida. Tente novamente.")
 
     elif encounter == "item":
-        item = random.choice([Weapon("Espada Antiga", 20, 10),
-                              Shield("Escudo Antigo", 15, 5),
-                              Potion("Poção de Cura Forte", 10, 20)])
+        # Escolhe aleatoriamente um tipo de item (espada, escudo ou poção)
+        item_type = random.choice(["sword", "shield", "potion"])
+        if item_type == "sword":
+            item = random.choices(weapons, weights = weight)[0]
+        elif item_type == "shield":
+            item = random.choices(shields, weights = weight)[0]
+        else:
+            item = random.choices(potions, weights= weight)[0]
+
         print(f"\nVocê encontrou um {item.name}!")
         player.add_item(item)
         print(f"{item.name} foi adicionado ao seu inventário.")

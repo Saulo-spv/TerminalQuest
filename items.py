@@ -54,3 +54,26 @@ class Shield(Item):
     def upgrade(self):
         super().upgrade()
         self.block_amount += 3
+
+# Lista de espadas
+weapons = [
+    Weapon("Espada de Treinamento", 25, 10),
+    Weapon("Espada do Guerreiro", 15, 5),
+    Weapon("Lâmina da Tempestade", 40, 15)
+]
+
+# Lista de escudos
+shields = [
+    Shield("Escudo de Madeira", 10, 5),
+    Shield("Escudo de Ferro", 20, 10),
+    Shield("Escudo de Aço", 30, 15)
+]
+
+# Lista de poções
+potions = [
+    Potion("Poção de Cura Leve", 5, 10),
+    Potion("Poção de Cura Média", 10, 20),
+    Potion("Poção de Cura Forte", 15, 30)
+]
+
+weight = [0.6, 0.3, 0.1] 
