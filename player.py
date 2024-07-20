@@ -10,6 +10,19 @@ class Player:
         self.weapon = None
         self.shield = None
 
+    def show_stats(self):
+        print(f"{self.name}'s HP: {self.hp}")
+        print("Equipamentos:")
+        if self.weapon:
+            print(f"  - Arma: {self.weapon}")
+        else:
+            print("  - Arma: Nenhuma")
+        if self.shield:
+            print(f"  - Escudo: {self.shield}")
+        else:
+            print("  - Escudo: Nenhum")
+        print(f"Dinheiro: ${self.money}")
+
     def show_status(self):
         print(f"{self.name}'s HP: {self.hp}")
         print("Equipamentos:")
