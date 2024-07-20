@@ -3,7 +3,6 @@ import os
 from player import Player
 from items import Weapon, Potion, Shield
 from enemies import monsters
-import time
 
 def tutorial(player):
     os.system('cls' if os.name == 'nt' else 'clear') 
@@ -86,6 +85,9 @@ def explore(player):
                     player.exp += exp_gained
                     player.earn_money(money_gained)
                     print(f"Você ganhou {exp_gained} de experiência e ${money_gained} de dinheiro.")
+                    monsters.remove(monster)
+                    if not monsters:
+                        print("Parabens você derrotou todos os monstros academicos!")
                     break
 
                 # Monstro ataca o jogador

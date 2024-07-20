@@ -1,6 +1,7 @@
 from player import Player
 from items import Weapon, Potion, Shield
 from functions import explore, menu, tutorial
+from enemies import monsters
 import os
 
 def main():
@@ -12,7 +13,7 @@ def main():
 
     tutorial(player)
 
-    while player.is_alive():
+    while player.is_alive() and monsters:
         action = input("\nO que você quer fazer? (E)xplorar, (M)enu, (S)air: ").lower()
         if action == 'e':
             explore(player)
