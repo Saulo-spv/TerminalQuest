@@ -25,7 +25,7 @@ class Weapon(Item):
         self.damage = damage
 
     def __str__(self):
-        return f"Espada: {self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Dano: {self.damage:.2f})"
+        return f"{self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Dano: {self.damage:.2f})"
 
     def upgrade(self):
         super().upgrade()
@@ -55,7 +55,7 @@ class Shield(Item):
         self.block_amount = block_amount
 
     def __str__(self):
-        return f"Escudo: {self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Bloqueio: {self.block_amount:.2f})"
+        return f"{self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Bloqueio: {self.block_amount:.2f})"
 
     def upgrade(self):
         super().upgrade()
@@ -67,15 +67,15 @@ class Shield(Item):
 # Lista de espadas
 weapons = [
     Weapon("Espada de Treinamento", 50, 10),
-    Weapon("Espada do Guerreiro", 100, 25),
-    Weapon("Lâmina da Tempestade", 200, 40)
+    Weapon("Espada do Guerreiro", 100, 15),
+    Weapon("Lâmina da Tempestade", 200, 30)
 ]
 
 # Lista de escudos
 shields = [
-    Shield("Escudo de Madeira", 30, 10),
-    Shield("Escudo de Ferro", 70, 20),
-    Shield("Escudo de Aço", 150, 30)
+    Shield("Escudo de Madeira", 30, 5),
+    Shield("Escudo de Ferro", 70, 8),
+    Shield("Escudo de Aço", 150, 15)
 ]
 
 # Lista de poções

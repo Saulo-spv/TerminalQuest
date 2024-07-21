@@ -13,7 +13,7 @@ def tutorial(player):
     print(f"\nProfessor Vovô: 'Olá, {player.name}! O campus está enfrentando tempos difíceis com esses monstros acadêmicos à solta. Vou te ajudar a começar sua jornada. Aqui estão alguns itens antigos que podem ser úteis.'")
         
     # Criando itens iniciais
-    sword = Weapon("Espada velha", 10, 5)
+    sword = Weapon("Espada velha", 10, 7)
     shield = Shield("Escudo velho", 5, 2)
     potion = Potion("Poção de Cura", 3, 10)
 
@@ -105,10 +105,12 @@ def explore(player):
                 
                 if not player.is_alive():
                     os.system('cls' if os.name == 'nt' else 'clear') 
-                    print("Você enfrentou muitos desafios e lutou bravamente, mas infelizmente não conseguiu superar todos os obstáculos desta vez. O campus ficou sob a influência dos monstros e os alunos enfrentaram dificuldades. Lembre-se, cada desafio é uma oportunidade para aprender e crescer. Volte mais forte e preparado para a próxima jornada. Até a próxima aventura!")
+                    print("Você foi derrotado!")
+                    print("\nVocê enfrentou muitos desafios e lutou bravamente, mas infelizmente não conseguiu superar todos os obstáculos desta vez. O campus ficou sob a influência dos monstros e os alunos enfrentaram dificuldades. Lembre-se, cada desafio é uma oportunidade para aprender e crescer. Volte mais forte e preparado para a próxima jornada. Até a próxima aventura!")
+                    print(f"\nTodos lembraram da bravura de {player.name}!!!")
                     break
             elif action == 'c':
-                print("Você fugiu do combate!")
+                print("\nVocê fugiu do combate!")
                 break
             elif action == 'm':
                 menu(player)
@@ -159,7 +161,8 @@ def menu(player):
                     item_index = int(action) - 1
                     if 0 <= item_index < len(player.inventory):
                         player.equip_item(item_index)
-                        print(f"\nVocê equipou {player.inventory[item_index].name}.")
+                        if not (isinstance(player.inventory[item_index], Potion)):
+                            print(f"\nVocê equipou {player.inventory[item_index].name}.")
                     else:
                         print("Índice do item não encontrado no inventário.")
                 except ValueError:
