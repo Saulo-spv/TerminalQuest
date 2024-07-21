@@ -1,10 +1,12 @@
 from player import Player
-from items import Weapon, Potion, Shield
 from functions import explore, menu, tutorial, print_slow
 from enemies import monsters
-import os
+import os, random, time
 
 def main():
+
+    # Definir a semente aqui
+    random.seed(time.time())
 
     os.system('cls' if os.name == 'nt' else 'clear') 
     print_slow("Bem-vindo a 'A Jornada Acadêmica: Desafios do Campus!'")

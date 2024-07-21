@@ -1,5 +1,4 @@
-import random
-import os, sys, time
+import os, sys, time, random
 from items import Weapon, Potion, Shield, weapons, potions, shields, weight
 from enemies import monsters
 
@@ -36,7 +35,7 @@ def tutorial(player):
     print_slow(f"\nVocê recebeu: 'Espada velha, Escudo velho e Poção de Cura.'")
 
     # Orientações adicionais
-    print_slow("\nProfessor Vovô: 'Para equipar esses itens, entre no menu apertando 'M' e selecione a opção Equipar com a tecla 'E'.'")
+    print_slow("\nProfessor Vovô: 'Para equipar esses itens, entre no menu apertando 'M' e selecione a opção Equipar com a tecla 'E'.")
     print_slow("\nProfessor Vovô: 'Além disso, você começa com 20 de dinheiro para te ajudar em sua jornada.'")
 
 
@@ -105,6 +104,7 @@ def explore(player):
                     monsters.remove(monster)
                     if not monsters:
                         print_slow("\nParabéns! Você venceu todos os monstros acadêmicos e trouxe paz de volta ao campus. Sua coragem e determinação foram inspiradoras. Com a ordem restaurada, os alunos podem agora focar em seus estudos e projetos sem interrupções. Que sua jornada continue cheia de sucesso e aventuras. Até a próxima grande conquista!")
+                        print_slow("\nComo prêmio você ganhara um chocolate!!!\n")
                     break
 
                 # Monstro ataca o jogador
@@ -123,10 +123,21 @@ def explore(player):
                     print_slow("Você foi derrotado!")
                     print_slow("\nVocê enfrentou muitos desafios e lutou bravamente, mas infelizmente não conseguiu superar todos os obstáculos desta vez. O campus ficou sob a influência dos monstros e os alunos enfrentaram dificuldades. Lembre-se, cada desafio é uma oportunidade para aprender e crescer. Volte mais forte e preparado para a próxima jornada. Até a próxima aventura!")
                     print_slow(f"\nTodos lembraram da bravura de {player.name}!!!")
+                    print_slow("\nComo castigo você deve um chocolate ao Saulo!!!\n")
                     break
             elif action == 'c':
-                print_slow("\nVocê fugiu do combate!")
-                break
+                os.system('cls' if os.name == 'nt' else 'clear') 
+                print_slow("\nVocê está prestes a fugir do combate!")
+                print_slow("Se você fugir, o monstro retornará ao seu HP normal.")
+                confirm = input("Tem certeza que deseja fugir? (S/N): ").lower()
+                if confirm == 's':
+                    # Restaura o HP do monstro para o valor inicial
+                    monster.restore_hp() 
+                    print_slow("\nVocê fugiu do combate e o monstro retornou ao seu HP normal.")
+                    break
+                else:
+                    print_slow("\nVocê decidiu continuar lutando.")
+
             elif action == 'm':
                 menu(player)
             else:
@@ -204,6 +215,11 @@ def menu(player):
         elif action == 'v':
             while True:
                 os.system('cls' if os.name == 'nt' else 'clear') 
+                print_slow("\nAo vender um item, o seguinte processo é aplicado:")
+                print("1. Se o item que você está vendendo for o único desse tipo no seu inventário, ele será removido e qualquer equipamento relacionado (arma ou escudo) será desequipado.")
+                print("2. Se você tiver mais de um item igual no inventário, após vende-lo, o item restante será equipado automaticamente.")
+                print_slow("Assim, você pode continuar a usar outros itens iguais que ainda estejam no seu inventário.\n")
+
                 print_slow("Seus status atuais")
                 player.show_stats()
                 print_slow("\nItens disponíveis para venda:")
@@ -221,10 +237,11 @@ def menu(player):
                         item_to_sell = player.inventory[item_index]
                         
                         # Verifica se o item vendido está equipado e desequipa se necessário
-                        if player.weapon == item_to_sell:
-                            player.weapon = None
-                        if player.shield == item_to_sell:
-                            player.shield = None
+                        if (player.inventory.count(item_to_sell) == 1):
+                            if player.weapon == item_to_sell:
+                                player.weapon = None
+                            if player.shield == item_to_sell:
+                                player.shield = None
 
                         player.inventory.pop(item_index)
                         player.earn_money(item_to_sell.value)
@@ -281,6 +298,7 @@ def menu(player):
         elif action == 'p':
             while True:
                 os.system('cls' if os.name == 'nt' else 'clear') 
+                print_slow("Lembre-se que o hp máx é 100, então o excedente de cura será desperdiçado!!!\n")
                 print_slow("Seus status atuais")
                 player.show_stats()
                 print_slow("\nPoções disponíveis para uso:")
@@ -315,7 +333,10 @@ def menu(player):
 
         elif action == 's':
             print_slow("Saindo do menu.")
+            os.system('cls' if os.name == 'nt' else 'clear') 
             break
 
         else:
             print_slow("Escolha inválida. Por favor, escolha (E)quipar item, (V)ender item, (U)pgrade item, (P) usar poção ou (S)air do Menu.")
+            print_slow("Pressione 'Enter' para voltar!")
+            input("")

@@ -2,6 +2,7 @@ class Enemy:
     def __init__(self, name, description, hp, damage, weakness, special_attack, reward, defeat_message):
         self.name = name
         self.description = description
+        self.initial_hp = hp 
         self.hp = hp
         self.damage = damage
         self.weakness = weakness
@@ -21,6 +22,10 @@ class Enemy:
         print(f"Nome: {self.name}")
         print(f"HP: {self.hp}")
         print(f"Dano: {self.damage}")
+
+    def restore_hp(self):
+        self.hp = self.initial_hp
+
 
 # Definindo os monstros
 monsters = [
