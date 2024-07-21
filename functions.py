@@ -49,18 +49,17 @@ def explore(player):
         # Armazena o dano causado e recebido
         player_damage = 0
         damage_to_player = 0
+        block_amount = 0
 
         # Loop de combate
         while monster.is_alive() and player.is_alive():
             if not first_turn:
                 os.system('cls' if os.name == 'nt' else 'clear')  # Limpa a tela a cada turno após o primeiro
-            first_turn = False
 
-            # Mostra o dano causado no turno anterior
-            if player_damage > 0:
+                # Mostra o dano causado no turno anterior
                 print(f"\nVocê causou {player_damage} de dano ao {monster.name}.")
-            if damage_to_player > 0:
                 print(f"{monster.name} causou {damage_to_player} de dano a você. (Seu escudo bloqueou {block_amount})")
+
             
             # Mostra o status atualizado antes do turno
             monster.show_status()
@@ -72,7 +71,7 @@ def explore(player):
             if action == 'a':
                 # Jogador ataca o monstro
                 if player.weapon:
-                    player_damage = random.randint(max(player.weapon.damage - 10, 0), player.weapon.damage + 10)
+                    player_damage = random.randint(int(round(max(player.weapon.damage - 10, 0))), int(round(player.weapon.damage + 10)))
                 else:
                     player_damage = 1
                 monster.take_damage(player_damage)
@@ -81,7 +80,7 @@ def explore(player):
                     os.system('cls' if os.name == 'nt' else 'clear') 
                     print(f"Você derrotou {monster.name}!")
                     exp_gained = random.randint(10, 20)
-                    money_gained = random.randint(20, 50)
+                    money_gained = monster.reward
                     player.exp += exp_gained
                     player.earn_money(money_gained)
                     print(f"Você ganhou {exp_gained} de experiência e ${money_gained} de dinheiro.")
@@ -94,7 +93,7 @@ def explore(player):
                 monster_damage = random.randint(max(monster.damage - 10, 0), monster.damage + 10)
                 if player.shield:
                     # Calcula o bloqueio com um range aleatório
-                    block_amount = random.randint(max(player.shield.block_amount - 5, 0), player.shield.block_amount + 5)
+                    block_amount = random.randint(int(round(max(player.shield.block_amount - 5, 0))), int(round(player.shield.block_amount + 5)))
                     damage_to_player = max(monster_damage - block_amount, 0)
                 else:
                     damage_to_player = monster_damage
@@ -112,6 +111,7 @@ def explore(player):
                 menu(player)
             else:
                 print("Escolha inválida. Tente novamente.")
+            first_turn = False
 
     elif encounter == "item":
         # Escolhe aleatoriamente um tipo de item (espada, escudo ou poção)
@@ -197,16 +197,18 @@ def menu(player):
         
         elif action == 'u':
             while True:
-                os.system('cls' if os.name == 'nt' else 'clear') 
+                os.system('cls' if os.name == 'nt' else 'clear')  
                 print("\nItens disponíveis para upgrade:")
+
                 for idx, item in enumerate(player.inventory):
                     if isinstance(item, Weapon):
-                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 0.5}, Nível atual: {item.level}, Dano atual: {item.damage}, Dano após upgrade: {item.damage + 5}")
-                    elif isinstance(item, Potion):
-                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 0.5}, Nível atual: {item.level}, Cura atual: {item.heal_amount}, Cura após upgrade: {item.heal_amount + 10}")
+                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Dano atual: {item.damage:.2f}, Dano após upgrade: {item.calculate_next_damage():.2f}")
                     elif isinstance(item, Shield):
-                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 0.5}, Nível atual: {item.level}, Bloqueio atual: {item.block_amount}, Bloqueio após upgrade: {item.block_amount + 3}")
-
+                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Bloqueio atual: {item.block_amount:.2f}, Bloqueio após upgrade: {item.calculate_next_block():.2f}")
+                    elif isinstance(item, Potion):
+                        print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Cura atual: {item.heal_amount:.2f}, Cura após upgrade: {item.calculate_next_heal():.2f}")
+                
+                print(f"Dinheiro: ${player.money}")
                 action = input("\nDigite o número do item que deseja melhorar ou (v) para voltar: ").lower()
                 if action == 'v':
                     break
@@ -216,7 +218,7 @@ def menu(player):
                     if 0 <= item_index < len(player.inventory):
                         item_to_upgrade = player.inventory[item_index]
                         # Verifique se o jogador tem dinheiro suficiente e faça o upgrade
-                        upgrade_cost = item_to_upgrade.value * 0.5
+                        upgrade_cost = item_to_upgrade.value * 1.5
                         if player.money >= upgrade_cost:
                                 item_to_upgrade.upgrade()
                                 player.earn_money(-upgrade_cost)
@@ -248,7 +250,8 @@ def menu(player):
                     if 0 <= item_index < len(player.inventory):
                         potion_to_use = player.inventory[item_index]
                         if isinstance(potion_to_use, Potion):
-                            player.hp = min(100, player.hp + potion_to_use.heal_amount)
+                            # Atualiza o HP com valor float e arredonda para duas casas decimais
+                            player.hp = min(100.0, round(player.hp + potion_to_use.heal_amount, 2))
                             player.show_status()
                             print(f"\nVocê usou {potion_to_use.name}.")
                             player.inventory.pop(item_index)
@@ -264,6 +267,6 @@ def menu(player):
         elif action == 's':
             print("Saindo do menu.")
             break
-        
+
         else:
-            print("Escolha inválida. Por favor, escolha (E)quipar item, (V)ender item, (U)pgrade item, (P) usar poção ou (S)air.")
+            print("Escolha inválida. Por favor, escolha (E)quipar item, (V)ender item, (U)pgrade item, (P) usar poção ou (S)air do Menu.")

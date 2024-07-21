@@ -1,11 +1,12 @@
 class Enemy:
-    def __init__(self, name, description, hp, damage, weakness, special_attack):
+    def __init__(self, name, description, hp, damage, weakness, special_attack, reward):
         self.name = name
         self.description = description
         self.hp = hp
         self.damage = damage
         self.weakness = weakness
         self.special_attack = special_attack
+        self.reward = reward
 
     def take_damage(self, damage):
         self.hp -= damage
@@ -22,11 +23,11 @@ class Enemy:
 
 # Definindo os monstros
 monsters = [
-    Enemy("Monstro da Procrastinação", "Um ser nebuloso e enganador que adia tarefas e compromissos. Ele causa distrações e tenta desviar a atenção do jogador.", 7, 1, "Motivação", "Desvio de Atenção"),
-    Enemy("Espírito da Ansiedade", "Uma entidade perturbadora que causa nervosismo e pânico. Aumenta a dificuldade dos desafios enfrentados pelo jogador.", 8, 2, "Calma e Planejamento", "Crise de Ansiedade"),
-    #Enemy("Monstro do Trabalho de Casa", "Uma criatura que surge de pilhas intermináveis de tarefas e trabalhos escolares. Pode atacar com tarefas desafiadoras e demoradas.", 90, 25, "Organização e Tempo", "Sobrecarregar"),
-    #Enemy("Fantasma da Fadiga", "Um espectro que exaure a energia dos alunos com seu cansaço constante. Reduz a eficácia dos ataques do jogador.", 60, 10, "Energia e Descanso", "Exaustão"),
-    #Enemy("Demônio da Dúvida", "Uma entidade que se alimenta das inseguranças e dúvidas dos alunos. Cria incertezas e dificuldade em tomar decisões rápidas.", 75, 18, "Confiança", "Dúvida Paralizante"),
-    #Enemy("Monstro da Desorganização", "Uma criatura caótica que faz com que itens e tarefas fiquem desordenados e difíceis de encontrar.", 85, 22, "Planejamento e Organização", "Confusão de Itens"),
-    #Enemy("Ser do Estresse", "Uma figura opressiva que aumenta o nível de estresse do jogador, afetando suas habilidades e desempenho.", 95, 30, "Relaxamento e Técnicas de Alívio", "Pico de Estresse")
+    Enemy("Monstro da Procrastinação", "Um ser nebuloso e enganador que adia tarefas e compromissos. Ele causa distrações e tenta desviar a atenção do jogador.", 15, 3, "Motivação", "Desvio de Atenção", 10),
+    Enemy("Espírito da Ansiedade", "Uma entidade perturbadora que causa nervosismo e pânico. Aumenta a dificuldade dos desafios enfrentados pelo jogador.", 25, 8, "Calma e Planejamento", "Crise de Ansiedade", 20),
+    Enemy("Monstro do Trabalho de Casa", "Uma criatura que surge de pilhas intermináveis de tarefas e trabalhos escolares. Pode atacar com tarefas desafiadoras e demoradas.", 28, 24, "Organização e Tempo", "Sobrecarregar", 30),
+    Enemy("Fantasma da Fadiga", "Um espectro que exaure a energia dos alunos com seu cansaço constante. Reduz a eficácia dos ataques do jogador.", 10, 63, "Energia e Descanso", "Exaustão", 40),
+    Enemy("Demônio da Dúvida", "Uma entidade que se alimenta das inseguranças e dúvidas dos alunos. Cria incertezas e dificuldade em tomar decisões rápidas.", 55, 38, "Confiança", "Dúvida Paralizante", 60),
+    Enemy("Monstro da Desorganização", "Uma criatura caótica que faz com que itens e tarefas fiquem desordenados e difíceis de encontrar.", 85, 52, "Planejamento e Organização", "Confusão de Itens", 80),
+    Enemy("Ser do Estresse", "Uma figura opressiva que aumenta o nível de estresse do jogador, afetando suas habilidades e desempenho.", 95, 88, "Relaxamento e Técnicas de Alívio", "Pico de Estresse", 100)
 ]

@@ -13,11 +13,11 @@ class Item:
         self.level = level
 
     def __str__(self):
-        return f"{self.name} (Valor: ${self.value}, Nível: {self.level}, Tipo: {self.item_type.value})"
+        return f"{self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Tipo: {self.item_type.value})"
 
     def upgrade(self):
         self.level += 1
-        self.value += 10
+        self.value *= 1.5
 
 class Weapon(Item):
     def __init__(self, name, value, damage, level=1):
@@ -25,11 +25,14 @@ class Weapon(Item):
         self.damage = damage
 
     def __str__(self):
-        return f"Espada: {self.name} (Valor: ${self.value}, Nível: {self.level}, Dano: {self.damage})"
+        return f"Espada: {self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Dano: {self.damage:.2f})"
 
     def upgrade(self):
         super().upgrade()
-        self.damage += 5
+        self.damage *= 1.3
+
+    def calculate_next_damage(self):
+        return self.damage * 1.3
 
 class Potion(Item):
     def __init__(self, name, value, heal_amount, level=1):
@@ -37,11 +40,14 @@ class Potion(Item):
         self.heal_amount = heal_amount
 
     def __str__(self):
-        return f"Poção: {self.name} (Valor: ${self.value}, Nível: {self.level}, Cura: {self.heal_amount})"
+        return f"Poção: {self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Cura: {self.heal_amount:.2f})"
 
     def upgrade(self):
         super().upgrade()
-        self.heal_amount += 10
+        self.heal_amount *= 1.15
+
+    def calculate_next_heal(self):
+        return self.heal_amount * 1.15
 
 class Shield(Item):
     def __init__(self, name, value, block_amount, level=1):
@@ -49,31 +55,34 @@ class Shield(Item):
         self.block_amount = block_amount
 
     def __str__(self):
-        return f"Escudo: {self.name} (Valor: ${self.value}, Nível: {self.level}, Bloqueio: {self.block_amount})"
+        return f"Escudo: {self.name} (Valor: R${self.value:.2f}, Nível: {self.level}, Bloqueio: {self.block_amount:.2f})"
 
     def upgrade(self):
         super().upgrade()
-        self.block_amount += 3
+        self.block_amount *= 1.2
+
+    def calculate_next_block(self):
+        return self.block_amount * 1.2
 
 # Lista de espadas
 weapons = [
-    Weapon("Espada de Treinamento", 25, 10),
-    Weapon("Espada do Guerreiro", 15, 5),
-    Weapon("Lâmina da Tempestade", 40, 15)
+    Weapon("Espada de Treinamento", 50, 25),
+    Weapon("Espada do Guerreiro", 100, 40),
+    Weapon("Lâmina da Tempestade", 200, 60)
 ]
 
 # Lista de escudos
 shields = [
-    Shield("Escudo de Madeira", 10, 5),
-    Shield("Escudo de Ferro", 20, 10),
-    Shield("Escudo de Aço", 30, 15)
+    Shield("Escudo de Madeira", 30, 10),
+    Shield("Escudo de Ferro", 70, 20),
+    Shield("Escudo de Aço", 150, 30)
 ]
 
 # Lista de poções
 potions = [
-    Potion("Poção de Cura Leve", 5, 10),
-    Potion("Poção de Cura Média", 10, 20),
-    Potion("Poção de Cura Forte", 15, 30)
+    Potion("Poção de Cura Leve", 20, 20),
+    Potion("Poção de Cura Média", 50, 40),
+    Potion("Poção de Cura Forte", 100, 60)
 ]
 
-weight = [0.6, 0.3, 0.1] 
+weight = [0.6, 0.3, 0.1]
