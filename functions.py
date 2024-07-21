@@ -89,7 +89,7 @@ def explore(player):
                     print(f"Você ganhou {exp_gained} de experiência e ${money_gained} de dinheiro.")
                     monsters.remove(monster)
                     if not monsters:
-                        print("Parabéns! Você venceu todos os monstros acadêmicos e trouxe paz de volta ao campus. Sua coragem e determinação foram inspiradoras. Com a ordem restaurada, os alunos podem agora focar em seus estudos e projetos sem interrupções. Que sua jornada continue cheia de sucesso e aventuras. Até a próxima grande conquista!")
+                        print("\nParabéns! Você venceu todos os monstros acadêmicos e trouxe paz de volta ao campus. Sua coragem e determinação foram inspiradoras. Com a ordem restaurada, os alunos podem agora focar em seus estudos e projetos sem interrupções. Que sua jornada continue cheia de sucesso e aventuras. Até a próxima grande conquista!")
                     break
 
                 # Monstro ataca o jogador
@@ -133,9 +133,18 @@ def explore(player):
         print(f"{item.name} foi adicionado ao seu inventário.")
         player.show_status()
     else:
+        print_monsters(monsters)
+        print("\nSeus Status atuais")
+        player.show_stats()
+
+def print_monsters(monsters):
+    if not monsters:
+        print("Todos os monstros foram derrotados!")
+    else:
         print(f"\nNada por aqui... Parece que os monstros estão se escondendo bem. Continue sua jornada e busque os {len(monsters)} monstros restantes!")
-
-
+        print("\nMonstros restantes:")
+        for monster in monsters:
+            print(f"Nome: {monster.name} | Dano: {monster.damage} | HP: {monster.hp}")
 
 def menu(player):
     while True:

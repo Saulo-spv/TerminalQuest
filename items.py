@@ -66,9 +66,9 @@ class Shield(Item):
 
 # Lista de espadas
 weapons = [
-    Weapon("Espada de Treinamento", 50, 10),
-    Weapon("Espada do Guerreiro", 100, 15),
-    Weapon("Lâmina da Tempestade", 200, 30)
+    Weapon("Espada de Treinamento", 50, 12),
+    Weapon("Espada do Guerreiro", 100, 20),
+    Weapon("Lâmina da Tempestade", 200, 35)
 ]
 
 # Lista de escudos
