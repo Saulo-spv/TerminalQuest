@@ -5,13 +5,13 @@ from items import Weapon, Potion, Shield, weapons, potions, shields, weight
 from enemies import monsters
 
 def tutorial(player):
-    os.system('cls' if os.name == 'nt' else 'clear') 
     # Introdução à história
-    print(f"{player.name}, você é um estudante da EMAP, conhecida por seus desafios acadêmicos e atividades extracurriculares intensas. Recentemente, estranhas ocorrências começaram a afetar o campus: monstros acadêmicos surgem nos corredores, provas se tornam mais difíceis e até mesmo professores parecem estar agindo de maneira peculiar. Você, como um aluno destemido, decide enfrentar esses desafios e restaurar a ordem no campus.")
-    print("\nPrimeiramente, você decide explorar o campus para entender o que está acontecendo.")
-    print("Enquanto caminha pelos corredores, você se encontra com o Professor Vovô.")
-    print("\nProfessor Vovô: 'Olá, jovem! O campus está enfrentando tempos difíceis, com monstros acadêmicos à solta. Eu vou te ajudar a começar sua jornada. Aqui estão alguns itens básicos para te ajudar'")
-    
+    os.system('cls' if os.name == 'nt' else 'clear') 
+    print(f"{player.name}, você é um estudante da EMAP, uma universidade conhecida por seus desafios acadêmicos e atividades extracurriculares intensas. Recentemente, o campus tem sido afetado por estranhas ocorrências: monstros acadêmicos surgem pelos corredores, provas se tornam mais difíceis e até mesmo os professores estão agindo de maneira peculiar. Como um aluno destemido, você decidiu enfrentar esses desafios e restaurar a ordem.")
+
+    print("\nEnquanto explora o campus, você encontra o Professor Vovô, um mentor sábio que oferece ajuda crucial para sua jornada.")
+    print(f"\nProfessor Vovô: 'Olá, {player.name}! O campus está enfrentando tempos difíceis com esses monstros acadêmicos à solta. Vou te ajudar a começar sua jornada. Aqui estão alguns itens antigos que podem ser úteis.'")
+        
     # Criando itens iniciais
     sword = Weapon("Espada velha", 10, 5)
     shield = Shield("Escudo velho", 5, 2)
@@ -23,13 +23,15 @@ def tutorial(player):
     player.add_item(potion)
 
     # Professor Vovô dando dinheiro
-    player.earn_money(50)
-    
+    player.earn_money(20)
+        
     # Equipando itens iniciais
-    print("\nProfessor Vovô: 'Agora, deixe-me te ensinar como equipar esses itens. Entre no menu apertando 'M' depois selecione Equipar com a tecla 'e'!")
+    print("\nProfessor Vovô: 'Para equipar esses itens, entre no menu apertando 'M' e selecione a opção Equipar com a tecla 'E'.")
+    print("\nProfessor Vovô: 'Além disso, você começa com 20 de dinheiro para te ajudar em sua jornada.'")
 
-    print("\nProfessor Vovô: 'Você também receberá 50 de dinheiro para começar sua jornada.'")
-    print("\nVocê está pronto para explorar o campus e enfrentar os desafios!")
+    print(f"\n{player.name}, sua missão é clara: enfrentar os 7 monstros acadêmicos que estão perturbando o campus. Prepare-se para a aventura e boa sorte na sua jornada para restaurar a paz!")
+
+    print("\nAgora, aventure-se e explore o campus para enfrentar esses desafios e restaurar a ordem!")
 
 def explore(player):
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -78,7 +80,8 @@ def explore(player):
                 
                 if not monster.is_alive():
                     os.system('cls' if os.name == 'nt' else 'clear') 
-                    print(f"Você derrotou {monster.name}!")
+                    print(f"Você derrotou {monster.name}!\n")
+                    print(monster.defeat_message) 
                     exp_gained = random.randint(10, 20)
                     money_gained = monster.reward
                     player.exp += exp_gained
@@ -86,7 +89,7 @@ def explore(player):
                     print(f"Você ganhou {exp_gained} de experiência e ${money_gained} de dinheiro.")
                     monsters.remove(monster)
                     if not monsters:
-                        print("Parabens você derrotou todos os monstros academicos!")
+                        print("Parabéns! Você venceu todos os monstros acadêmicos e trouxe paz de volta ao campus. Sua coragem e determinação foram inspiradoras. Com a ordem restaurada, os alunos podem agora focar em seus estudos e projetos sem interrupções. Que sua jornada continue cheia de sucesso e aventuras. Até a próxima grande conquista!")
                     break
 
                 # Monstro ataca o jogador
@@ -102,7 +105,7 @@ def explore(player):
                 
                 if not player.is_alive():
                     os.system('cls' if os.name == 'nt' else 'clear') 
-                    print("Você foi derrotado, assim todos os alunos foram reprovados e os monstros saíram vencedores. FIM DE JOGO!")
+                    print("Você enfrentou muitos desafios e lutou bravamente, mas infelizmente não conseguiu superar todos os obstáculos desta vez. O campus ficou sob a influência dos monstros e os alunos enfrentaram dificuldades. Lembre-se, cada desafio é uma oportunidade para aprender e crescer. Volte mais forte e preparado para a próxima jornada. Até a próxima aventura!")
                     break
             elif action == 'c':
                 print("Você fugiu do combate!")
@@ -128,7 +131,8 @@ def explore(player):
         print(f"{item.name} foi adicionado ao seu inventário.")
         player.show_status()
     else:
-        print("\nVocê não encontrou nada desta vez. Continue explorando!")
+        print(f"\nNada por aqui... Parece que os monstros estão se escondendo bem. Continue sua jornada e busque os {len(monsters)} monstros restantes!")
+
 
 
 def menu(player):
@@ -136,11 +140,13 @@ def menu(player):
         os.system('cls' if os.name == 'nt' else 'clear') 
         print("\nVocê está no Menu...\n")
         player.show_status()
-        action = input("\nO que você quer fazer? (E)quipar item, (V)ender item, (U)pgrade item, (P) usar poção, (S)air: ").lower()
+        action = input("\nO que você quer fazer? (E)quipar item, (V)ender item, (U)pgrade item, (P) usar poção, (S)air do Menu: ").lower()
         
         if action == 'e':
             while True:
                 os.system('cls' if os.name == 'nt' else 'clear') 
+                print("Seus status atuais")
+                player.show_stats()
                 print("\nItens disponíveis para equipar:")
                 for idx, item in enumerate(player.inventory):
                     print(f"[{idx + 1}] {item}")
@@ -153,7 +159,6 @@ def menu(player):
                     item_index = int(action) - 1
                     if 0 <= item_index < len(player.inventory):
                         player.equip_item(item_index)
-                        player.show_status()
                         print(f"\nVocê equipou {player.inventory[item_index].name}.")
                     else:
                         print("Índice do item não encontrado no inventário.")
@@ -165,6 +170,8 @@ def menu(player):
         elif action == 'v':
             while True:
                 os.system('cls' if os.name == 'nt' else 'clear') 
+                print("Seus status atuais")
+                player.show_stats()
                 print("\nItens disponíveis para venda:")
                 for idx, item in enumerate(player.inventory):
                     print(f"[{idx + 1}] {item}")
@@ -186,7 +193,6 @@ def menu(player):
 
                         player.inventory.pop(item_index)
                         player.earn_money(item_to_sell.value)
-                        player.show_status()
                         print(f"\nVocê vendeu {item_to_sell.name} por ${item_to_sell.value}.")
                     else:
                         print("Índice do item não encontrado no inventário.")
@@ -198,6 +204,9 @@ def menu(player):
         elif action == 'u':
             while True:
                 os.system('cls' if os.name == 'nt' else 'clear')  
+                print("Seus status atuais")
+                player.show_stats()
+
                 print("\nItens disponíveis para upgrade:")
 
                 for idx, item in enumerate(player.inventory):
@@ -208,7 +217,6 @@ def menu(player):
                     elif isinstance(item, Potion):
                         print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Cura atual: {item.heal_amount:.2f}, Cura após upgrade: {item.calculate_next_heal():.2f}")
                 
-                print(f"Dinheiro: ${player.money}")
                 action = input("\nDigite o número do item que deseja melhorar ou (v) para voltar: ").lower()
                 if action == 'v':
                     break
@@ -222,7 +230,6 @@ def menu(player):
                         if player.money >= upgrade_cost:
                                 item_to_upgrade.upgrade()
                                 player.earn_money(-upgrade_cost)
-                                player.show_status()
                                 print(f"\nVocê melhorou {item_to_upgrade.name} para nível {item_to_upgrade.level}.")
                         else:
                             print("Dinheiro insuficiente para o upgrade.")
@@ -236,6 +243,8 @@ def menu(player):
         elif action == 'p':
             while True:
                 os.system('cls' if os.name == 'nt' else 'clear') 
+                print("Seus status atuais")
+                player.show_stats()
                 print("\nPoções disponíveis para uso:")
                 for idx, item in enumerate(player.inventory):
                     if isinstance(item, Potion):

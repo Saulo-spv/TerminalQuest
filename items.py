@@ -66,9 +66,9 @@ class Shield(Item):
 
 # Lista de espadas
 weapons = [
-    Weapon("Espada de Treinamento", 50, 25),
-    Weapon("Espada do Guerreiro", 100, 40),
-    Weapon("Lâmina da Tempestade", 200, 60)
+    Weapon("Espada de Treinamento", 50, 10),
+    Weapon("Espada do Guerreiro", 100, 25),
+    Weapon("Lâmina da Tempestade", 200, 40)
 ]
 
 # Lista de escudos
@@ -81,8 +81,8 @@ shields = [
 # Lista de poções
 potions = [
     Potion("Poção de Cura Leve", 20, 20),
-    Potion("Poção de Cura Média", 50, 40),
-    Potion("Poção de Cura Forte", 100, 60)
+    Potion("Poção de Cura Média", 50, 30),
+    Potion("Poção de Cura Forte", 100, 40)
 ]
 
 weight = [0.6, 0.3, 0.1]
