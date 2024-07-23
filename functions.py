@@ -2,7 +2,7 @@ import os, sys, time, random
 from items import Weapon, Potion, Shield, weapons, potions, shields, weight
 from enemies import monsters
 
-def print_slow(text, delay=0.02, end = '\n'):
+def print_slow(text, delay=0.0, end = '\n'):
     for char in text:
         sys.stdout.write(char)
         sys.stdout.flush()
@@ -145,13 +145,18 @@ def explore(player):
 
     elif encounter == "item":
         # Escolhe aleatoriamente um tipo de item (espada, escudo ou poção)
-        item_type = random.choice(["sword", "shield", "potion"])
-        if item_type == "sword":
-            item = random.choices(weapons, weights = weight)[0]
+        item_type = random.choice(["weapon", "shield", "potion"])
+        
+        if item_type == "weapon":
+            config = random.choices(weapons, weights=weight)[0]
+            item = Weapon(config[0], config[1], config[2])
         elif item_type == "shield":
-            item = random.choices(shields, weights = weight)[0]
+            config = random.choices(shields, weights=weight)[0]
+            item = Shield(config[0], config[1], config[2])
         else:
-            item = random.choices(potions, weights= weight)[0]
+            config = random.choices(potions, weights=weight)[0]
+            item = Potion(config[0], config[1], config[2])
+
 
         print_slow("\nVocê encontrou", end = '')
         time.sleep(0.5)
