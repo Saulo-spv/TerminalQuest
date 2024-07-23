@@ -41,7 +41,7 @@ import os, sys, time, random
 from items import Weapon, Potion, Shield, weapons, potions, shields, weight
 from enemies import monsters
 
-def print_slow(text, delay=0.015, end='\n'):
+def print_slow(text, delay=0.01, end='\n'):
     """
     Imprime o texto caracter por caracter com um atraso opcional entre cada caractere.
 
@@ -526,10 +526,15 @@ def equip_item(player):
         # Exibe o status atual do jogador
         print_slow("Seus status atuais")
         player.show_stats()
-        # Lista os itens disponíveis para equipar, excluindo poções
-        print_slow("\nItens disponíveis para equipar:")
+        
+        # Lista os itens disponíveis para venda
+        print_slow("\nEscudos disponíveis para Equipar:")
         for idx, item in enumerate(player.inventory):
-            if not isinstance(item, Potion):
+            if isinstance(item, Shield):
+                print(f"[{idx + 1}] {item}")
+        print_slow("\nArmas disponíveis para Equipar:")
+        for idx, item in enumerate(player.inventory):
+            if isinstance(item, Weapon):
                 print(f"[{idx + 1}] {item}")
 
         # Solicita ao jogador que escolha um item para equipar ou volte ao menu
@@ -584,10 +589,20 @@ def sell_item(player):
         # Exibe o status atual do jogador
         print_slow("Seus status atuais")
         player.show_stats()
+
         # Lista os itens disponíveis para venda
-        print_slow("\nItens disponíveis para venda:")
+        print_slow("\nEscudos disponíveis para Vender:")
         for idx, item in enumerate(player.inventory):
-            print(f"[{idx + 1}] {item}")
+            if isinstance(item, Shield):
+                print(f"[{idx + 1}] {item}")
+        print_slow("\nArmas disponíveis para Vender:")
+        for idx, item in enumerate(player.inventory):
+            if isinstance(item, Weapon):
+                print(f"[{idx + 1}] {item}")
+        print_slow("\nPoções disponíveis para Vender:")
+        for idx, item in enumerate(player.inventory):
+            if isinstance(item, Potion):
+                print(f"[{idx + 1}] {item}")
 
         # Solicita ao jogador que escolha um item para vender ou volte ao menu
         print_slow("\nDigite o número do item que deseja vender ou (v) para voltar: ")
@@ -651,14 +666,18 @@ def upgrade_item(player):
         print_slow("Seus status atuais")
         player.show_stats()
 
-        # Lista os itens disponíveis para upgrade e seus detalhes
-        print_slow("\nItens disponíveis para upgrade:")
+        # Lista os itens disponíveis para venda
+        print_slow("\nEscudos disponíveis para Upgrade:")
+        for idx, item in enumerate(player.inventory):
+            if isinstance(item, Shield):
+                print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Bloqueio atual: {item.block_amount:.2f}, Bloqueio após upgrade: {item.calculate_next_block():.2f}")
+        print_slow("\nArmas disponíveis para Upgrade:")
         for idx, item in enumerate(player.inventory):
             if isinstance(item, Weapon):
                 print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Dano atual: {item.damage:.2f}, Dano após upgrade: {item.calculate_next_damage():.2f}")
-            elif isinstance(item, Shield):
-                print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Bloqueio atual: {item.block_amount:.2f}, Bloqueio após upgrade: {item.calculate_next_block():.2f}")
-            elif isinstance(item, Potion):
+        print_slow("\nPoções disponíveis para Upgrade:")
+        for idx, item in enumerate(player.inventory):
+            if isinstance(item, Potion):
                 print(f"[{idx + 1}] {item.name} - Custo: ${item.value * 1.5:.2f}, Nível atual: {item.level}, Cura atual: {item.heal_amount:.2f}, Cura após upgrade: {item.calculate_next_heal():.2f}")
         
         # Solicita ao jogador que escolha um item para melhorar ou volte ao menu
